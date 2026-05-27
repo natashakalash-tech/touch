@@ -143,6 +143,9 @@ body {
 .touch-btn__label {
   position: relative;
   z-index: 1;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
   font-size: clamp(2rem, 6.5vw, 2.95rem);
   font-weight: 600;
   letter-spacing: 0.24em;
@@ -299,6 +302,23 @@ body {
   }
   100% {
     transform: translate(var(--dx, 1px), var(--dy, -1px)) rotate(calc(var(--rot, 0deg) + var(--rot-delta, 2deg)));
+  }
+}
+
+@media (max-width: 520px) {
+  .touch-btn {
+    padding: 3.2rem 1.5rem;
+    min-width: unset;
+    width: fit-content;
+    max-width: calc(100vw - 2rem);
+    aspect-ratio: unset;
+    min-height: 12rem;
+  }
+
+  .touch-btn__label {
+    font-size: clamp(1.35rem, 4.6vw, 1.8rem);
+    letter-spacing: 0.1em;
+    margin-right: -0.1em;
   }
 }
 

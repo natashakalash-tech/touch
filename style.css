@@ -566,34 +566,66 @@ body {
   animation: farewell-rush 1.7s cubic-bezier(0.42, 0, 0.88, 0.62) forwards;
 }
 
+.oracle.farewell.rushing::after {
+  animation: glyph-rush 1.7s ease forwards;
+}
+
 @keyframes farewell-rush {
   0% {
     opacity: 1;
     filter: blur(0);
     transform: scale(1);
+    color: rgba(255, 94, 74, 0.96);
     text-shadow:
       1px 2px 0 rgba(0, 0, 0, 0.35),
       0 0 26px rgba(255, 60, 40, 0.35);
+  }
+  22% {
+    color: rgb(255, 34, 18);
+    text-shadow:
+      1px 2px 0 rgba(0, 0, 0, 0.3),
+      0 0 44px rgba(255, 20, 0, 0.85);
   }
   45% {
     opacity: 1;
     filter: blur(0);
     transform: scale(2.9);
+    color: rgb(255, 16, 6);
     text-shadow:
       1px 2px 0 rgba(0, 0, 0, 0.3),
-      0 0 60px rgba(255, 70, 45, 0.6);
+      0 0 70px rgba(255, 12, 0, 0.95),
+      0 0 130px rgba(220, 0, 0, 0.55);
   }
   78% {
-    opacity: 0.85;
+    opacity: 0.9;
     filter: blur(4px);
     transform: scale(6);
+    color: rgb(255, 8, 0);
+    text-shadow:
+      0 0 90px rgba(255, 8, 0, 0.9),
+      0 0 170px rgba(200, 0, 0, 0.5);
   }
   100% {
     opacity: 0;
     filter: blur(22px);
     transform: scale(10);
-    text-shadow:
-      0 0 120px rgba(255, 90, 55, 0.5);
+    color: rgb(255, 0, 0);
+    text-shadow: 0 0 140px rgba(255, 0, 0, 0.55);
+  }
+}
+
+@keyframes glyph-rush {
+  0% {
+    opacity: 1;
+    color: rgba(255, 104, 84, 0.85);
+  }
+  30% {
+    opacity: 1;
+    color: rgb(255, 24, 10);
+  }
+  100% {
+    opacity: 0;
+    color: rgb(255, 0, 0);
   }
 }
 

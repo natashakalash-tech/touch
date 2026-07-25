@@ -7,15 +7,15 @@
 }
 
 :root {
-  --bg: #1a120e;
-  --bg-glow: #2d1f17;
-  --beige-light: rgba(235, 220, 195, 0.55);
-  --beige-mid: rgba(210, 185, 155, 0.35);
-  --beige-edge: rgba(180, 150, 120, 0.2);
-  --text-dark: #2a1f14;
-  --amber-glow: rgba(255, 175, 75, 0.28);
-  --amber-mid: rgba(230, 145, 55, 0.14);
-  --amber-deep: rgba(180, 95, 30, 0.1);
+  --bg: #0a1610;
+  --bg-glow: #14291c;
+  --mist-light: rgba(212, 240, 218, 0.55);
+  --mist-mid: rgba(170, 215, 180, 0.35);
+  --mist-edge: rgba(120, 175, 135, 0.2);
+  --text-dark: #0e2416;
+  --spirit-glow: rgba(85, 230, 145, 0.28);
+  --spirit-mid: rgba(60, 200, 120, 0.14);
+  --spirit-deep: rgba(25, 140, 80, 0.1);
 }
 
 html,
@@ -28,15 +28,221 @@ body {
   background:
     radial-gradient(ellipse 80% 60% at 50% 45%, var(--bg-glow) 0%, transparent 70%),
     var(--bg);
-  color: var(--beige-light);
+  color: var(--mist-light);
   overflow: hidden;
 }
 
 .stage {
+  position: relative;
+  z-index: 2;
   min-height: 100dvh;
   display: grid;
   place-items: center;
   padding: 1.5rem;
+}
+
+/* —— туман —— */
+.fog {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.fog::before,
+.fog::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+}
+
+.fog::before {
+  inset: 10% -25% 25% -10%;
+  background: radial-gradient(
+    closest-side,
+    rgba(55, 150, 100, 0.13),
+    transparent 72%
+  );
+  animation: fog-drift-a 41s ease-in-out infinite alternate;
+}
+
+.fog::after {
+  inset: 25% -15% 5% -20%;
+  background: radial-gradient(
+    closest-side,
+    rgba(90, 200, 145, 0.09),
+    transparent 70%
+  );
+  animation: fog-drift-b 57s ease-in-out infinite alternate;
+}
+
+@keyframes fog-drift-a {
+  0% {
+    transform: translate(-6%, 4%) scale(1);
+  }
+  100% {
+    transform: translate(8%, -5%) scale(1.14);
+  }
+}
+
+@keyframes fog-drift-b {
+  0% {
+    transform: translate(7%, -3%) scale(1.1);
+  }
+  100% {
+    transform: translate(-9%, 6%) scale(0.94);
+  }
+}
+
+/* —— искры духов —— */
+.motes {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.mote {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--s);
+  height: var(--s);
+  margin: calc(var(--s) / -2);
+  border-radius: 50%;
+  background: rgba(196, 255, 220, 0.95);
+  box-shadow: 0 0 calc(var(--s) * 3.5) rgba(90, 235, 150, 0.7);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.mote--rise {
+  animation: mote-rise var(--dur) linear var(--delay) infinite;
+}
+
+.mote--burst {
+  animation: mote-burst var(--dur) cubic-bezier(0.12, 0.6, 0.3, 1) var(--delay) forwards;
+}
+
+@keyframes mote-rise {
+  0% {
+    transform: translate(0, 0) scale(0.5);
+    opacity: 0;
+  }
+  12% {
+    opacity: var(--peak);
+  }
+  78% {
+    opacity: var(--peak);
+  }
+  100% {
+    transform: translate(var(--dx), -108vh) scale(1.05);
+    opacity: 0;
+  }
+}
+
+@keyframes mote-burst {
+  0% {
+    transform: translate(0, 0) scale(0.25);
+    opacity: 0;
+  }
+  14% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--dx), var(--dy)) scale(0.85);
+    opacity: 0;
+  }
+}
+
+/* —— рунный круг —— */
+.rune-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(88vmin, 36rem);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  color: rgba(150, 245, 190, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 2s ease;
+}
+
+.rune-ring.visible {
+  opacity: 1;
+}
+
+.rune-ring svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 10px rgba(70, 220, 130, 0.35));
+  animation: ring-spin 120s linear infinite;
+}
+
+@keyframes ring-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rune-star {
+  opacity: 0.75;
+  animation: star-twinkle 5.5s ease-in-out infinite;
+}
+
+.rune-star:nth-of-type(2) {
+  animation-delay: -1.9s;
+}
+
+.rune-star:nth-of-type(3) {
+  animation-delay: -3.4s;
+}
+
+.rune-star:nth-of-type(4) {
+  animation-delay: -0.8s;
+}
+
+.rune-star:nth-of-type(5) {
+  animation-delay: -4.2s;
+}
+
+.rune-star:nth-of-type(6) {
+  animation-delay: -2.6s;
+}
+
+.rune-star:nth-of-type(7) {
+  animation-delay: -1.2s;
+}
+
+.rune-star:nth-of-type(8) {
+  animation-delay: -3.9s;
+}
+
+@keyframes star-twinkle {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.28;
+  }
+}
+
+/* —— виньетка —— */
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 78% 68% at 50% 50%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
 }
 
 /* —— кнопка —— */
@@ -56,23 +262,23 @@ body {
   background:
     linear-gradient(
       168deg,
-      rgba(255, 210, 140, 0.16) 0%,
-      rgba(245, 175, 90, 0.1) 35%,
-      rgba(210, 130, 50, 0.06) 68%,
-      rgba(140, 80, 25, 0.08) 100%
+      rgba(160, 255, 195, 0.16) 0%,
+      rgba(95, 225, 150, 0.1) 35%,
+      rgba(45, 165, 100, 0.06) 68%,
+      rgba(20, 95, 55, 0.08) 100%
     );
   box-shadow:
-    0 1px 0 rgba(255, 210, 150, 0.28),
-    0 0 28px var(--amber-glow),
+    0 1px 0 rgba(175, 255, 205, 0.28),
+    0 0 28px var(--spirit-glow),
     0 14px 36px rgba(0, 0, 0, 0.42),
     0 28px 56px rgba(0, 0, 0, 0.22),
-    0 5px 0 rgba(110, 65, 25, 0.16),
-    0 0 0 1px rgba(255, 185, 90, 0.14),
-    inset 0 2px 3px rgba(255, 220, 160, 0.4),
-    inset 0 14px 32px rgba(255, 190, 100, 0.12),
-    inset 0 -14px 28px rgba(35, 18, 8, 0.3),
-    inset 0 -3px 8px rgba(60, 30, 10, 0.24),
-    inset 2px 0 14px rgba(255, 200, 120, 0.08),
+    0 5px 0 rgba(18, 78, 45, 0.16),
+    0 0 0 1px rgba(120, 240, 170, 0.14),
+    inset 0 2px 3px rgba(190, 255, 215, 0.4),
+    inset 0 14px 32px rgba(120, 245, 175, 0.12),
+    inset 0 -14px 28px rgba(6, 26, 15, 0.3),
+    inset 0 -3px 8px rgba(10, 42, 24, 0.24),
+    inset 2px 0 14px rgba(150, 250, 190, 0.08),
     inset -2px 0 12px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(10px) saturate(1.2);
   -webkit-backdrop-filter: blur(10px) saturate(1.2);
@@ -90,8 +296,8 @@ body {
   border-radius: 1.6rem 1.6rem 50% 50%;
   background: linear-gradient(
     180deg,
-    rgba(255, 215, 140, 0.34) 0%,
-    rgba(255, 185, 90, 0.1) 55%,
+    rgba(185, 255, 215, 0.34) 0%,
+    rgba(110, 235, 165, 0.1) 55%,
     transparent 100%
   );
   pointer-events: none;
@@ -110,7 +316,7 @@ body {
   background: linear-gradient(
     180deg,
     transparent,
-    rgba(30, 18, 10, 0.2)
+    rgba(8, 28, 17, 0.2)
   );
   pointer-events: none;
 }
@@ -118,45 +324,53 @@ body {
 .touch-btn:hover {
   transform: scale(1.02) translateY(-2px);
   box-shadow:
-    0 1px 0 rgba(255, 210, 150, 0.34),
-    0 0 38px rgba(255, 175, 75, 0.38),
+    0 1px 0 rgba(175, 255, 205, 0.34),
+    0 0 38px rgba(85, 230, 145, 0.38),
     0 18px 42px rgba(0, 0, 0, 0.48),
     0 32px 64px rgba(0, 0, 0, 0.26),
-    0 6px 0 rgba(110, 65, 25, 0.18),
-    0 0 0 1px rgba(255, 195, 100, 0.2),
-    inset 0 2px 4px rgba(255, 220, 160, 0.52),
-    inset 0 16px 36px rgba(255, 185, 90, 0.14),
-    inset 0 -14px 28px rgba(35, 22, 12, 0.26),
-    inset 0 -3px 8px rgba(50, 32, 18, 0.2);
+    0 6px 0 rgba(18, 78, 45, 0.18),
+    0 0 0 1px rgba(130, 245, 180, 0.2),
+    inset 0 2px 4px rgba(190, 255, 215, 0.52),
+    inset 0 16px 36px rgba(110, 235, 165, 0.14),
+    inset 0 -14px 28px rgba(8, 30, 18, 0.26),
+    inset 0 -3px 8px rgba(14, 44, 26, 0.2);
 }
 
 .touch-btn:active:not(.dissolving) {
   transform: scale(0.98) translateY(3px);
   box-shadow:
-    0 0 0 1px rgba(255, 235, 210, 0.08),
+    0 0 0 1px rgba(225, 255, 238, 0.08),
     0 6px 20px rgba(0, 0, 0, 0.38),
-    0 2px 0 rgba(90, 65, 45, 0.1),
-    inset 0 1px 2px rgba(255, 252, 245, 0.25),
-    inset 0 -8px 20px rgba(35, 22, 12, 0.32);
+    0 2px 0 rgba(30, 88, 55, 0.1),
+    inset 0 1px 2px rgba(245, 255, 250, 0.25),
+    inset 0 -8px 20px rgba(8, 30, 18, 0.32);
 }
 
 .touch-btn__label {
+  --ls: 0.24em;
   position: relative;
   z-index: 1;
-  display: inline-flex;
-  flex-wrap: nowrap;
-  white-space: nowrap;
-  font-size: clamp(2rem, 6.5vw, 2.95rem);
+  display: block;
+  max-width: 8.5em;
+  text-align: center;
+  font-size: clamp(1.8rem, 5.5vw, 2.5rem);
   font-weight: 600;
-  letter-spacing: 0.24em;
-  margin-right: -0.24em;
-  color: rgba(255, 228, 175, 0.98);
+  line-height: 1.2;
+  letter-spacing: var(--ls);
+  word-spacing: 0.35em;
+  color: rgba(206, 255, 216, 0.98);
   text-shadow:
-    0 1px 0 rgba(255, 240, 200, 0.75),
-    0 0 16px rgba(255, 185, 80, 0.45),
-    0 0 28px rgba(255, 150, 50, 0.2),
-    0 1px 3px rgba(50, 28, 10, 0.28);
+    0 1px 0 rgba(224, 255, 232, 0.75),
+    0 0 16px rgba(90, 240, 150, 0.45),
+    0 0 28px rgba(40, 210, 110, 0.2),
+    0 1px 3px rgba(4, 32, 16, 0.28);
   user-select: none;
+}
+
+.btn-word {
+  display: inline-block;
+  white-space: nowrap;
+  margin-right: calc(-1 * var(--ls));
 }
 
 .touch-btn__label.shaking .btn-char {
@@ -251,21 +465,44 @@ body {
 /* —— предсказание —— */
 .oracle {
   position: absolute;
-  max-width: min(54rem, 96vw);
+  max-width: min(26rem, 76vw);
   text-align: center;
-  font-family: "Caveat", cursive;
-  font-size: clamp(2rem, 7vw, 3.4rem);
-  line-height: 1.25;
-  color: rgba(235, 215, 185, 0.92);
+  font-family: "Neucha", "Caveat", cursive;
+  font-size: clamp(1.75rem, 5.8vw, 2.9rem);
+  line-height: 1.35;
+  letter-spacing: 0.012em;
+  color: rgba(214, 246, 220, 0.92);
   text-shadow:
     1px 2px 0 rgba(0, 0, 0, 0.35),
-    0 0 40px rgba(200, 170, 130, 0.15);
+    0 0 40px rgba(120, 220, 160, 0.18);
   opacity: 0;
   transform: scale(0.92);
 }
 
 .oracle.visible {
   animation: oracle-in 0.9s ease forwards;
+}
+
+.oracle::after {
+  content: "· ✦ ·";
+  display: block;
+  margin-top: 0.55em;
+  font-size: 0.32em;
+  letter-spacing: 0.5em;
+  margin-right: -0.5em;
+  color: rgba(150, 245, 190, 0.55);
+  text-shadow: 0 0 14px rgba(70, 220, 130, 0.45);
+  opacity: 0;
+}
+
+.oracle.visible::after {
+  animation: glyph-in 1.4s ease 0.7s forwards;
+}
+
+@keyframes glyph-in {
+  to {
+    opacity: 1;
+  }
 }
 
 .oracle-word {
@@ -320,9 +557,8 @@ body {
   }
 
   .touch-btn__label {
-    font-size: clamp(1.45rem, 4.2vw, 1.75rem);
-    letter-spacing: 0.07em;
-    margin-right: -0.07em;
+    --ls: 0.1em;
+    font-size: clamp(1.6rem, 7vw, 2.1rem);
   }
 }
 
@@ -333,9 +569,8 @@ body {
   }
 
   .touch-btn__label {
-    font-size: 1.38rem;
-    letter-spacing: 0.04em;
-    margin-right: -0.04em;
+    --ls: 0.06em;
+    font-size: 1.55rem;
   }
 }
 
@@ -355,5 +590,16 @@ body {
   .oracle.shaking .oracle-char,
   .touch-btn__label.shaking .btn-char {
     animation: none;
+  }
+
+  .fog::before,
+  .fog::after,
+  .rune-ring svg,
+  .rune-star {
+    animation: none;
+  }
+
+  .mote {
+    display: none;
   }
 }

@@ -544,11 +544,16 @@ body {
 }
 
 .oracle.farewell.visible {
-  animation: farewell-in 2s ease forwards;
+  animation:
+    farewell-in 2s ease forwards,
+    farewell-redden 4s ease 1.6s forwards,
+    farewell-pulse 1.7s ease-in-out 5.6s infinite;
 }
 
 .oracle.farewell.visible::after {
-  animation: glyph-in 2s ease 1.3s forwards;
+  animation:
+    glyph-in 2s ease 1.3s forwards,
+    glyph-redden 4s ease 1.6s forwards;
 }
 
 @keyframes farewell-in {
@@ -559,6 +564,47 @@ body {
   100% {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes farewell-redden {
+  0% {
+    color: rgba(188, 230, 198, 0.78);
+    text-shadow:
+      1px 2px 0 rgba(0, 0, 0, 0.3),
+      0 0 34px rgba(120, 220, 160, 0.14);
+  }
+  100% {
+    color: rgba(255, 94, 74, 0.96);
+    text-shadow:
+      1px 2px 0 rgba(0, 0, 0, 0.35),
+      0 0 26px rgba(255, 60, 40, 0.35);
+  }
+}
+
+@keyframes farewell-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    color: rgba(255, 94, 74, 0.96);
+    text-shadow:
+      1px 2px 0 rgba(0, 0, 0, 0.35),
+      0 0 26px rgba(255, 60, 40, 0.35);
+  }
+  50% {
+    transform: scale(1.055);
+    color: rgba(255, 138, 118, 1);
+    text-shadow:
+      1px 2px 0 rgba(0, 0, 0, 0.35),
+      0 0 46px rgba(255, 70, 45, 0.75),
+      0 0 90px rgba(255, 40, 20, 0.32);
+  }
+}
+
+@keyframes glyph-redden {
+  to {
+    color: rgba(255, 104, 84, 0.85);
+    text-shadow: 0 0 16px rgba(255, 60, 40, 0.5);
   }
 }
 
@@ -664,5 +710,11 @@ body {
 
   .mote {
     display: none;
+  }
+
+  .oracle.farewell.visible {
+    animation:
+      farewell-in 0.4s ease forwards,
+      farewell-redden 3s ease 0.5s forwards;
   }
 }

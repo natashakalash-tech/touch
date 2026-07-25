@@ -154,11 +154,30 @@ function buildShakyText(text) {
   applyShakyLetters(oracle, text, "oracle-char", "oracle");
 }
 
+/* —— финал: сколько послание держится на экране, мс —— */
+const HOLD_MS = 5000;
+const ORACLE_IN_MS = 900;
+const FADE_OUT_MS = 1000;
+const FAREWELL_TEXT = "ну всё, иди, не зли духов.";
+
+function showFarewell() {
+  oracle.className = "oracle shaking visible leaving";
+
+  setTimeout(() => {
+    oracle.textContent = FAREWELL_TEXT;
+    oracle.className = "oracle farewell";
+    runeRing.classList.add("dimmed");
+    requestAnimationFrame(() => oracle.classList.add("visible"));
+  }, FADE_OUT_MS);
+}
+
 function revealOracle() {
   const text = pickPrediction();
   buildShakyText(text);
   oracle.hidden = false;
   requestAnimationFrame(() => oracle.classList.add("visible"));
+
+  setTimeout(showFarewell, ORACLE_IN_MS + HOLD_MS);
 }
 
 touchBtn.addEventListener("click", () => {

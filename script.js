@@ -184,7 +184,7 @@ function buildShakyText(text) {
 const HOLD_MS = 5000;
 const ORACLE_IN_MS = 900;
 const FADE_OUT_MS = 1000;
-const FAREWELL_TEXT = "ну всё, иди, не зли духов.";
+const FAREWELL_TEXT = "ну всё.. иди.. НЕ ЗЛИ ДУХОВ!";
 
 /* моменты отсчитываются от появления финальной надписи;
    должны совпадать с задержками .oracle.farewell.visible в style.css */

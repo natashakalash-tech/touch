@@ -31,9 +31,9 @@ function rand(min, max) {
   return min + Math.random() * (max - min);
 }
 
-function makeMote(vars, modifier) {
+function makeMote(vars, ...modifiers) {
   const mote = document.createElement("span");
-  mote.className = `mote mote--${modifier}`;
+  mote.className = ["mote", ...modifiers.map((m) => `mote--${m}`)].join(" ");
   Object.entries(vars).forEach(([key, value]) => mote.style.setProperty(key, value));
   motes.appendChild(mote);
   return mote;
@@ -73,6 +73,32 @@ function spawnBurst(x, y, count) {
         "--delay": `${rand(0, 0.45).toFixed(2)}s`,
       },
       "burst"
+    );
+
+    mote.addEventListener("animationend", () => mote.remove(), { once: true });
+  }
+}
+
+function spawnShatter(count) {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+
+  for (let i = 0; i < count; i += 1) {
+    const angle = rand(0, Math.PI * 2);
+    const dist = rand(140, 560);
+    const size = rand(2, 7);
+    const mote = makeMote(
+      {
+        "--x": `${(rand(0.06, 0.94) * w).toFixed(0)}px`,
+        "--y": `${(rand(0.3, 0.7) * h).toFixed(0)}px`,
+        "--s": `${size.toFixed(1)}px`,
+        "--dx": `${(Math.cos(angle) * dist).toFixed(0)}px`,
+        "--dy": `${(Math.sin(angle) * dist * 0.6 - dist * 0.45).toFixed(0)}px`,
+        "--dur": `${rand(1.9, 3.8).toFixed(2)}s`,
+        "--delay": `${rand(0, 0.55).toFixed(2)}s`,
+      },
+      "burst",
+      "ember"
     );
 
     mote.addEventListener("animationend", () => mote.remove(), { once: true });
@@ -160,6 +186,11 @@ const ORACLE_IN_MS = 900;
 const FADE_OUT_MS = 1000;
 const FAREWELL_TEXT = "ну всё, иди, не зли духов.";
 
+/* моменты отсчитываются от появления финальной надписи;
+   должны совпадать с задержками .oracle.farewell.visible в style.css */
+const RUSH_AT = 1600 + 4000 + 1700 * 3;
+const SHATTER_AT = RUSH_AT + 1150;
+
 function showFarewell() {
   oracle.className = "oracle shaking visible leaving";
 
@@ -168,6 +199,15 @@ function showFarewell() {
     oracle.className = "oracle farewell";
     runeRing.classList.add("dimmed");
     requestAnimationFrame(() => oracle.classList.add("visible"));
+
+    if (calmMode) return;
+
+    setTimeout(() => oracle.classList.add("rushing"), RUSH_AT);
+
+    setTimeout(() => {
+      spawnShatter(64);
+      runeRing.classList.remove("visible", "dimmed");
+    }, SHATTER_AT);
   }, FADE_OUT_MS);
 }
 

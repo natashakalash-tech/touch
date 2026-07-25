@@ -129,6 +129,11 @@ body {
   animation: mote-burst var(--dur) cubic-bezier(0.12, 0.6, 0.3, 1) var(--delay) forwards;
 }
 
+.mote--ember {
+  background: rgba(255, 206, 188, 0.95);
+  box-shadow: 0 0 calc(var(--s) * 4) rgba(255, 82, 52, 0.8);
+}
+
 @keyframes mote-rise {
   0% {
     transform: translate(0, 0) scale(0.5);
@@ -547,13 +552,49 @@ body {
   animation:
     farewell-in 2s ease forwards,
     farewell-redden 4s ease 1.6s forwards,
-    farewell-pulse 1.7s ease-in-out 5.6s infinite;
+    farewell-pulse 1.7s ease-in-out 5.6s 3;
 }
 
 .oracle.farewell.visible::after {
   animation:
     glyph-in 2s ease 1.3s forwards,
     glyph-redden 4s ease 1.6s forwards;
+}
+
+/* наезд на зрителя; момент запуска задан в script.js (RUSH_AT) */
+.oracle.farewell.rushing {
+  animation: farewell-rush 1.7s cubic-bezier(0.42, 0, 0.88, 0.62) forwards;
+}
+
+@keyframes farewell-rush {
+  0% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+    text-shadow:
+      1px 2px 0 rgba(0, 0, 0, 0.35),
+      0 0 26px rgba(255, 60, 40, 0.35);
+  }
+  45% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(2.9);
+    text-shadow:
+      1px 2px 0 rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(255, 70, 45, 0.6);
+  }
+  78% {
+    opacity: 0.85;
+    filter: blur(4px);
+    transform: scale(6);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(22px);
+    transform: scale(10);
+    text-shadow:
+      0 0 120px rgba(255, 90, 55, 0.5);
+  }
 }
 
 @keyframes farewell-in {

@@ -7,15 +7,15 @@
 }
 
 :root {
-  --bg: #0a1610;
-  --bg-glow: #14291c;
-  --mist-light: rgba(212, 240, 218, 0.55);
-  --mist-mid: rgba(170, 215, 180, 0.35);
-  --mist-edge: rgba(120, 175, 135, 0.2);
-  --text-dark: #0e2416;
-  --spirit-glow: rgba(85, 230, 145, 0.28);
-  --spirit-mid: rgba(60, 200, 120, 0.14);
-  --spirit-deep: rgba(25, 140, 80, 0.1);
+  --bg: #150d08;
+  --bg-glow: #2c1a10;
+  --mist-light: rgba(246, 228, 210, 0.55);
+  --mist-mid: rgba(224, 192, 162, 0.35);
+  --mist-edge: rgba(178, 138, 106, 0.2);
+  --text-dark: #251309;
+  --spirit-glow: rgba(255, 122, 82, 0.26);
+  --spirit-mid: rgba(228, 96, 60, 0.14);
+  --spirit-deep: rgba(140, 52, 24, 0.1);
 }
 
 html,
@@ -64,7 +64,7 @@ body {
   inset: 10% -25% 25% -10%;
   background: radial-gradient(
     closest-side,
-    rgba(55, 150, 100, 0.13),
+    rgba(150, 88, 52, 0.14),
     transparent 72%
   );
   animation: fog-drift-a 41s ease-in-out infinite alternate;
@@ -74,7 +74,7 @@ body {
   inset: 25% -15% 5% -20%;
   background: radial-gradient(
     closest-side,
-    rgba(90, 200, 145, 0.09),
+    rgba(196, 96, 62, 0.1),
     transparent 70%
   );
   animation: fog-drift-b 57s ease-in-out infinite alternate;
@@ -115,10 +115,9 @@ body {
   height: var(--s);
   margin: calc(var(--s) / -2);
   border-radius: 50%;
-  background: rgba(196, 255, 220, 0.95);
-  box-shadow: 0 0 calc(var(--s) * 3.5) rgba(90, 235, 150, 0.7);
+  background: rgba(255, 214, 194, 0.95);
+  box-shadow: 0 0 calc(var(--s) * 3.5) rgba(255, 74, 48, 0.7);
   opacity: 0;
-  will-change: transform, opacity;
 }
 
 .mote--rise {
@@ -129,9 +128,10 @@ body {
   animation: mote-burst var(--dur) cubic-bezier(0.12, 0.6, 0.3, 1) var(--delay) forwards;
 }
 
+/* искры финального распада — ярче и злее обычных, чтобы финал читался */
 .mote--ember {
-  background: rgba(255, 206, 188, 0.95);
-  box-shadow: 0 0 calc(var(--s) * 4) rgba(255, 82, 52, 0.8);
+  background: rgba(255, 234, 224, 0.98);
+  box-shadow: 0 0 calc(var(--s) * 4.5) rgba(255, 38, 12, 0.92);
 }
 
 @keyframes mote-rise {
@@ -173,7 +173,7 @@ body {
   width: min(88vmin, 36rem);
   aspect-ratio: 1;
   transform: translate(-50%, -50%);
-  color: rgba(160, 250, 198, 0.68);
+  color: rgba(248, 196, 148, 0.62);
   opacity: 0;
   pointer-events: none;
   transition: opacity 2s ease;
@@ -273,23 +273,23 @@ body {
   background:
     linear-gradient(
       168deg,
-      rgba(160, 255, 195, 0.16) 0%,
-      rgba(95, 225, 150, 0.1) 35%,
-      rgba(45, 165, 100, 0.06) 68%,
-      rgba(20, 95, 55, 0.08) 100%
+      rgba(206, 148, 104, 0.26) 0%,
+      rgba(152, 94, 56, 0.22) 35%,
+      rgba(102, 58, 30, 0.18) 68%,
+      rgba(58, 30, 14, 0.24) 100%
     );
   box-shadow:
-    0 1px 0 rgba(175, 255, 205, 0.28),
+    0 1px 0 rgba(255, 226, 200, 0.28),
     0 0 28px var(--spirit-glow),
     0 14px 36px rgba(0, 0, 0, 0.42),
     0 28px 56px rgba(0, 0, 0, 0.22),
-    0 5px 0 rgba(18, 78, 45, 0.16),
-    0 0 0 1px rgba(120, 240, 170, 0.14),
-    inset 0 2px 3px rgba(190, 255, 215, 0.4),
-    inset 0 14px 32px rgba(120, 245, 175, 0.12),
-    inset 0 -14px 28px rgba(6, 26, 15, 0.3),
-    inset 0 -3px 8px rgba(10, 42, 24, 0.24),
-    inset 2px 0 14px rgba(150, 250, 190, 0.08),
+    0 5px 0 rgba(74, 38, 18, 0.2),
+    0 0 0 1px rgba(255, 168, 122, 0.14),
+    inset 0 2px 3px rgba(255, 232, 210, 0.4),
+    inset 0 14px 32px rgba(255, 176, 128, 0.12),
+    inset 0 -14px 28px rgba(26, 12, 6, 0.34),
+    inset 0 -3px 8px rgba(42, 20, 10, 0.26),
+    inset 2px 0 14px rgba(255, 190, 145, 0.08),
     inset -2px 0 12px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(10px) saturate(1.2);
   -webkit-backdrop-filter: blur(10px) saturate(1.2);
@@ -307,8 +307,8 @@ body {
   border-radius: 1.6rem 1.6rem 50% 50%;
   background: linear-gradient(
     180deg,
-    rgba(185, 255, 215, 0.34) 0%,
-    rgba(110, 235, 165, 0.1) 55%,
+    rgba(255, 232, 210, 0.32) 0%,
+    rgba(255, 190, 145, 0.1) 55%,
     transparent 100%
   );
   pointer-events: none;
@@ -327,7 +327,7 @@ body {
   background: linear-gradient(
     180deg,
     transparent,
-    rgba(8, 28, 17, 0.2)
+    rgba(28, 13, 6, 0.22)
   );
   pointer-events: none;
 }
@@ -335,26 +335,26 @@ body {
 .touch-btn:hover {
   transform: scale(1.02) translateY(-2px);
   box-shadow:
-    0 1px 0 rgba(175, 255, 205, 0.34),
-    0 0 38px rgba(85, 230, 145, 0.38),
+    0 1px 0 rgba(255, 226, 200, 0.34),
+    0 0 38px rgba(255, 118, 76, 0.36),
     0 18px 42px rgba(0, 0, 0, 0.48),
     0 32px 64px rgba(0, 0, 0, 0.26),
-    0 6px 0 rgba(18, 78, 45, 0.18),
-    0 0 0 1px rgba(130, 245, 180, 0.2),
-    inset 0 2px 4px rgba(190, 255, 215, 0.52),
-    inset 0 16px 36px rgba(110, 235, 165, 0.14),
-    inset 0 -14px 28px rgba(8, 30, 18, 0.26),
-    inset 0 -3px 8px rgba(14, 44, 26, 0.2);
+    0 6px 0 rgba(74, 38, 18, 0.22),
+    0 0 0 1px rgba(255, 176, 132, 0.2),
+    inset 0 2px 4px rgba(255, 232, 210, 0.52),
+    inset 0 16px 36px rgba(255, 182, 136, 0.14),
+    inset 0 -14px 28px rgba(28, 13, 6, 0.3),
+    inset 0 -3px 8px rgba(44, 21, 10, 0.22);
 }
 
 .touch-btn:active:not(.dissolving) {
   transform: scale(0.98) translateY(3px);
   box-shadow:
-    0 0 0 1px rgba(225, 255, 238, 0.08),
+    0 0 0 1px rgba(255, 240, 228, 0.08),
     0 6px 20px rgba(0, 0, 0, 0.38),
-    0 2px 0 rgba(30, 88, 55, 0.1),
-    inset 0 1px 2px rgba(245, 255, 250, 0.25),
-    inset 0 -8px 20px rgba(8, 30, 18, 0.32);
+    0 2px 0 rgba(92, 48, 22, 0.12),
+    inset 0 1px 2px rgba(255, 248, 240, 0.25),
+    inset 0 -8px 20px rgba(28, 13, 6, 0.36);
 }
 
 .touch-btn__label {
@@ -369,12 +369,12 @@ body {
   line-height: 1.2;
   letter-spacing: var(--ls);
   word-spacing: 0.35em;
-  color: rgba(206, 255, 216, 0.98);
+  color: rgba(255, 240, 224, 0.98);
   text-shadow:
-    0 1px 0 rgba(224, 255, 232, 0.75),
-    0 0 16px rgba(90, 240, 150, 0.45),
-    0 0 28px rgba(40, 210, 110, 0.2),
-    0 1px 3px rgba(4, 32, 16, 0.28);
+    0 1px 0 rgba(255, 246, 234, 0.72),
+    0 0 16px rgba(255, 148, 102, 0.45),
+    0 0 28px rgba(255, 92, 52, 0.2),
+    0 1px 3px rgba(32, 13, 4, 0.3);
   user-select: none;
 }
 
@@ -485,10 +485,10 @@ body {
   font-size: clamp(1.75rem, 5.8vw, 2.9rem);
   line-height: 1.35;
   letter-spacing: 0.012em;
-  color: rgba(214, 246, 220, 0.92);
+  color: rgba(250, 234, 216, 0.93);
   text-shadow:
     1px 2px 0 rgba(0, 0, 0, 0.35),
-    0 0 40px rgba(120, 220, 160, 0.18);
+    0 0 40px rgba(255, 156, 108, 0.18);
   opacity: 0;
   transform: scale(0.92);
 }
@@ -504,8 +504,8 @@ body {
   font-size: 0.32em;
   letter-spacing: 0.5em;
   margin-right: -0.5em;
-  color: rgba(150, 245, 190, 0.55);
-  text-shadow: 0 0 14px rgba(70, 220, 130, 0.45);
+  color: rgba(255, 186, 142, 0.6);
+  text-shadow: 0 0 14px rgba(255, 104, 58, 0.45);
   opacity: 0;
 }
 
@@ -542,10 +542,10 @@ body {
   font-family: "Neucha", "Caveat", cursive;
   font-size: clamp(1.45rem, 4.6vw, 2.2rem);
   letter-spacing: 0.03em;
-  color: rgba(188, 230, 198, 0.78);
+  color: rgba(236, 214, 192, 0.8);
   text-shadow:
     1px 2px 0 rgba(0, 0, 0, 0.3),
-    0 0 34px rgba(120, 220, 160, 0.14);
+    0 0 34px rgba(255, 156, 108, 0.14);
 }
 
 .oracle.farewell.visible {
@@ -561,15 +561,50 @@ body {
     glyph-redden 4s ease 1.6s forwards;
 }
 
+/* буквы финальной фразы стоят неподвижно, пока не начался наезд —
+   дрожания у них нет и быть не должно, разброс включается только в .rushing */
+.farewell-char {
+  display: inline-block;
+}
+
+.oracle.farewell.rushing .farewell-char {
+  will-change: transform, opacity;
+  animation: char-scatter 1.55s cubic-bezier(0.3, 0, 0.7, 0.52) var(--fdelay, 0s) forwards;
+}
+
+/* Разлёт задан переменными на каждой букве (buildFarewellText в script.js).
+   ⚠️ Только transform и opacity: своего blur у букв быть не должно.
+   Размытие тут стоило дорого — родитель в этот момент и сам размывается,
+   и каждая буква пересчитывалась заново поверх уже увеличенной картинки. */
+@keyframes char-scatter {
+  0%,
+  26% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--fdx, 0), var(--fdy, 0)) rotate(var(--frot, 0deg));
+    opacity: 0;
+  }
+}
+
 /* наезд на зрителя; момент запуска задан в script.js (RUSH_AT) */
 .oracle.farewell.rushing {
-  animation: farewell-rush 1.7s cubic-bezier(0.42, 0, 0.88, 0.62) forwards;
+  animation: farewell-rush 1.7s linear forwards;
 }
 
 .oracle.farewell.rushing::after {
   animation: glyph-rush 1.7s ease forwards;
 }
 
+/* Шаги масштаба неровные намеренно: 1 → 1.58 → 2.51 → 3.98 → 6.31 → 10.
+   Это геометрический рост: при равных долях времени скорость приближения
+   ощущается постоянной.
+   ⚠️ Тайминг обязан оставаться linear. Раньше на всю анимацию стоял ease-in,
+   а он применяется заново к каждому отрезку между кадрами — на 45% и 78%
+   надпись почти замирала и разгонялась снова. Это и был рывок в конце.
+   Цвет и тень добирают до предела к 45% и дальше не меняются: перекрашивать
+   уже увеличенный текст в каждом кадре — самое дорогое, что здесь было. */
 @keyframes farewell-rush {
   0% {
     opacity: 1;
@@ -580,52 +615,54 @@ body {
       1px 2px 0 rgba(0, 0, 0, 0.35),
       0 0 26px rgba(255, 60, 40, 0.35);
   }
-  22% {
-    color: rgb(255, 34, 18);
+  20% {
+    transform: scale(1.58);
+    color: rgb(255, 40, 22);
     text-shadow:
       1px 2px 0 rgba(0, 0, 0, 0.3),
-      0 0 44px rgba(255, 20, 0, 0.85);
+      0 0 42px rgba(255, 20, 0, 0.8);
+  }
+  40% {
+    transform: scale(2.51);
   }
   45% {
     opacity: 1;
     filter: blur(0);
-    transform: scale(2.9);
-    color: rgb(255, 16, 6);
-    text-shadow:
-      1px 2px 0 rgba(0, 0, 0, 0.3),
-      0 0 70px rgba(255, 12, 0, 0.95),
-      0 0 130px rgba(220, 0, 0, 0.55);
+    color: rgb(255, 0, 0);
+    text-shadow: 0 0 64px rgba(255, 8, 0, 0.85);
   }
-  78% {
-    opacity: 0.9;
-    filter: blur(4px);
-    transform: scale(6);
-    color: rgb(255, 8, 0);
-    text-shadow:
-      0 0 90px rgba(255, 8, 0, 0.9),
-      0 0 170px rgba(200, 0, 0, 0.5);
+  60% {
+    transform: scale(3.98);
+  }
+  80% {
+    opacity: 0.88;
+    filter: blur(3px);
+    transform: scale(6.31);
   }
   100% {
     opacity: 0;
-    filter: blur(22px);
+    filter: blur(10px);
     transform: scale(10);
     color: rgb(255, 0, 0);
-    text-shadow: 0 0 140px rgba(255, 0, 0, 0.55);
+    text-shadow: 0 0 64px rgba(255, 8, 0, 0.85);
   }
 }
 
+/* значок гаснет к 55% и дальше не меняется — он живёт в той же
+   отрисовке, что и текст, и своей анимацией заставлял её перерисовываться */
 @keyframes glyph-rush {
   0% {
     opacity: 1;
     color: rgba(255, 104, 84, 0.85);
   }
   30% {
-    opacity: 1;
-    color: rgb(255, 24, 10);
+    opacity: 0.8;
+    color: rgb(255, 20, 8);
   }
+  55%,
   100% {
     opacity: 0;
-    color: rgb(255, 0, 0);
+    color: rgb(255, 20, 8);
   }
 }
 
@@ -641,11 +678,12 @@ body {
 }
 
 @keyframes farewell-redden {
+  /* 0% должен повторять базовый цвет .oracle.farewell — менять парой */
   0% {
-    color: rgba(188, 230, 198, 0.78);
+    color: rgba(236, 214, 192, 0.8);
     text-shadow:
       1px 2px 0 rgba(0, 0, 0, 0.3),
-      0 0 34px rgba(120, 220, 160, 0.14);
+      0 0 34px rgba(255, 156, 108, 0.14);
   }
   100% {
     color: rgba(255, 94, 74, 0.96);

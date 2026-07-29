@@ -1,19 +1,19 @@
 const predictions = [
-  "без паники, это стиль",
-  "отдых тоже стратегия",
-  "ты не обязан быть скромным",
-  "просто делай вид, что знаешь, что делаешь",
-  "ну можно себе и позволить",
-  "сначала удовольствие, потом всё остальное",
-  "имеешь право на маленькую радость",
-  "вот тебе знак: поешь",
-  "это не слабость, это стиль жизни",
-  "почему бы и нет",
-  "если хочется — значит, надо",
-  "красавчик! продолжай",
-  "случайно получилось слишком хорошо",
-  "твой уровень — позволить себе лишнее",
-  "иногда лучший план — не планировать",
+  "духи просили передать: не суетись",
+  "совет духов единогласно за вкусняшку",
+  "сегодня можно быть немного легендой",
+  "духи одобрили твой выбор",
+  "мир не рухнет, если ты полежишь",
+  "ветер принёс благословение на перекус",
+  "сейчас не момент для великих решений..завтра",
+  "духи шепнули: не мешай себе жить",
+  "духи одобрили твой план ничего не делать",
+  "не суетись, магия не любит спешку",
+  "сегодня можно быть слегка ленивым",
+  "бубен стучит — всё нормально",
+  "камень мудрее всех — не спеши",
+  "ветер шепчет — поешь",
+  "звёзды на стороне того, кто вкусно ест",
 ];
 
 const touchBtn = document.getElementById("touchBtn");
@@ -31,15 +31,19 @@ function rand(min, max) {
   return min + Math.random() * (max - min);
 }
 
-function makeMote(vars, ...modifiers) {
+/* target — куда положить искру; для залпов это DocumentFragment,
+   чтобы вставить всю пачку одним разом, а не дёргать страницу 64 раза */
+function makeMote(vars, modifiers, target) {
   const mote = document.createElement("span");
   mote.className = ["mote", ...modifiers.map((m) => `mote--${m}`)].join(" ");
   Object.entries(vars).forEach(([key, value]) => mote.style.setProperty(key, value));
-  motes.appendChild(mote);
+  (target || motes).appendChild(mote);
   return mote;
 }
 
 function spawnAmbientMotes(count) {
+  const batch = document.createDocumentFragment();
+
   for (let i = 0; i < count; i += 1) {
     const size = rand(2, 5);
     makeMote(
@@ -52,12 +56,17 @@ function spawnAmbientMotes(count) {
         "--delay": `${rand(-24, 0).toFixed(1)}s`,
         "--peak": rand(0.3, 0.85).toFixed(2),
       },
-      "rise"
+      ["rise"],
+      batch
     );
   }
+
+  motes.appendChild(batch);
 }
 
 function spawnBurst(x, y, count) {
+  const batch = document.createDocumentFragment();
+
   for (let i = 0; i < count; i += 1) {
     const angle = rand(0, Math.PI * 2);
     const dist = rand(70, 280);
@@ -72,16 +81,20 @@ function spawnBurst(x, y, count) {
         "--dur": `${rand(1.5, 2.9).toFixed(2)}s`,
         "--delay": `${rand(0, 0.45).toFixed(2)}s`,
       },
-      "burst"
+      ["burst"],
+      batch
     );
 
     mote.addEventListener("animationend", () => mote.remove(), { once: true });
   }
+
+  motes.appendChild(batch);
 }
 
 function spawnShatter(count) {
   const w = window.innerWidth;
   const h = window.innerHeight;
+  const batch = document.createDocumentFragment();
 
   for (let i = 0; i < count; i += 1) {
     const angle = rand(0, Math.PI * 2);
@@ -97,12 +110,14 @@ function spawnShatter(count) {
         "--dur": `${rand(1.9, 3.8).toFixed(2)}s`,
         "--delay": `${rand(0, 0.55).toFixed(2)}s`,
       },
-      "burst",
-      "ember"
+      ["burst", "ember"],
+      batch
     );
 
     mote.addEventListener("animationend", () => mote.remove(), { once: true });
   }
+
+  motes.appendChild(batch);
 }
 
 if (!calmMode) spawnAmbientMotes(18);
@@ -191,11 +206,56 @@ const FAREWELL_TEXT = "ну всё.. иди.. НЕ ЗЛИ ДУХОВ!";
 const RUSH_AT = 1600 + 4000 + 1700 * 3;
 const SHATTER_AT = RUSH_AT + 1150;
 
+/* насколько далеко разлетаются буквы при наезде, em */
+const SCATTER_SPREAD = 0.9;
+
+/* фраза собирается из отдельных букв: стоят ровно, но при наезде разлетаются.
+   Разброс считается один раз здесь, анимация char-scatter в style.css */
+function buildFarewellText(text) {
+  oracle.innerHTML = "";
+
+  const letters = [];
+
+  text.split(/(\s+)/).forEach((part) => {
+    if (!part) return;
+
+    if (/^\s+$/.test(part)) {
+      oracle.appendChild(document.createTextNode(part));
+      return;
+    }
+
+    const word = document.createElement("span");
+    word.className = "oracle-word";
+
+    [...part].forEach((ch) => {
+      const span = document.createElement("span");
+      span.className = "farewell-char";
+      span.textContent = ch;
+      word.appendChild(span);
+      letters.push(span);
+    });
+
+    oracle.appendChild(word);
+  });
+
+  /* разлёт от середины фразы: крайние буквы уходят дальше, все чуть вверх */
+  letters.forEach((span, i) => {
+    const t = letters.length > 1 ? (i / (letters.length - 1)) * 2 - 1 : 0;
+    const dir = t === 0 ? (Math.random() < 0.5 ? -1 : 1) : Math.sign(t);
+    const dx = dir * (0.35 + Math.abs(t) * SCATTER_SPREAD) + rand(-0.2, 0.2);
+
+    span.style.setProperty("--fdx", `${dx.toFixed(2)}em`);
+    span.style.setProperty("--fdy", `${rand(-0.75, 0.45).toFixed(2)}em`);
+    span.style.setProperty("--frot", `${(dir * rand(6, 34)).toFixed(1)}deg`);
+    span.style.setProperty("--fdelay", `${rand(0, 0.14).toFixed(2)}s`);
+  });
+}
+
 function showFarewell() {
   oracle.className = "oracle shaking visible leaving";
 
   setTimeout(() => {
-    oracle.textContent = FAREWELL_TEXT;
+    buildFarewellText(FAREWELL_TEXT);
     oracle.className = "oracle farewell";
     runeRing.classList.add("dimmed");
     requestAnimationFrame(() => oracle.classList.add("visible"));
